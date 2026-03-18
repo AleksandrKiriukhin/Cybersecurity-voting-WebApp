@@ -1,0 +1,26 @@
+[
+  {
+    "candidate_id": 1,
+    "first_name": "Oleksandr",
+    "last_name": "Kiriukhin",
+    "photo_path": null,
+    "votes": 5239298739698224770,
+    "department_id": null
+  },
+  {
+    "candidate_id": 2,
+    "first_name": "Alicja",
+    "last_name": "Testowa1",
+    "photo_path": "uploads/el_d7d1f4b4-7b85-4bfb-8d4e-6fe3153409e6/2_mouse.png",
+    "votes": 5278815053865093213,
+    "department_id": null
+  },
+  {
+    "candidate_id": 3,
+    "first_name": "User",
+    "last_name": "Userowicz",
+    "photo_path": "uploads/el_d7d1f4b4-7b85-4bfb-8d4e-6fe3153409e6/3_fish.jpg",
+    "votes": 5545490558012578393,
+    "department_id": null
+  }
+]

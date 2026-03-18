@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informacje o koncie - Simple Vote</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user-overview-page.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-logo">
+
+            <a href="{{ url_for('start') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo">
+            </a>
+            
+        </div>
+        <div class="header-starter-buttons">
+            
+            <div class="header-icons-buttons">
+                <a href="{{ url_for('main_page') }}">
+                    <img src="{{ url_for('static', filename='images/home-icon.png') }}" alt="">
+                </a>
+                <a href="{{ url_for('user_overview_page') }}">
+                    <img src="{{ url_for('static', filename='images/users-icon-menu-top.png') }}" alt="">
+                </a>
+            </div>
+
+            <button onclick="window.location.href='/login'">
+                Wyloguj się
+            </button>
+        </div>
+    </header>
+    
+    <main class="main-part-with-background">
+
+        <div class="main-page-content-container">
+
+            <div class="main-white-container">
+
+                <div class="headings-container">
+                    <h1>Cześć!</h1>
+                    <p>Informacje o koncie</p>
+                </div>
+
+                <div class="container-for-info">
+
+                    <div class="info-user-container">
+
+                        <div class="single-info">
+                            <p class="heading-info">
+                                Imię
+                            </p>
+                            <p class="real-info-p">
+                                {{user.first_name}}
+                            </p>
+                        </div>
+
+                        <div class="single-info">
+                            <p class="heading-info">
+                                Nazwisko
+                            </p>
+                            <p class="real-info-p">
+                                {{user.last_name}}
+                            </p>
+                        </div>
+
+                        <div class="single-info">
+                            <p class="heading-info">
+                                E-mail
+                            </p>
+                            <p class="real-info-p">
+                                {{user.email}}
+                            </p>
+                        </div>
+
+                        <div class="single-info">
+                            <p class="heading-info">
+                                Wydział
+                            </p>
+                            <p class="real-info-p">
+                                {{ user.department_name if user.department_name else "Brak" }}
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="buttons-sections">
+                        <button class="wyloguj-button" onclick="window.location.href='/login'">
+                            Wyloguj się
+                        </button>
+
+                        {% if user.role == 'admin' %}
+                        <button class="moje-glosowania-button" onclick="window.location.href='/user-votings'">
+                            Moje głosowania
+                        </button>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <div class="password-change-container" style="align-content: center; text-align: center;">
+                    <p class="p-haslo" style="text-align: center;">Zmień hasło</p>
+                    <div id="password-change-status" style="margin-bottom: 15px; color: red;"></div>
+
+                    <form id="change_password_form">
+
+                        <div class="single-info password-input">
+                            <p class="heading-info">Aktualne hasło</p>
+                            <input type="password" id="old_password" name="old_password" placeholder="Wprowadź aktualne hasło" required>
+                            <p id="err-old_password" class="error-message" style="text-align: center;"></p>
+                        </div>
+
+                        <div class="single-info password-input">
+                            <p class="heading-info">Nowe hasło</p>
+                            <input type="password" id="new_password" name="new_password" placeholder="Wprowadź nowe hasło" required>
+                            <p id="err-new_password" class="error-message" style="text-align: center;"></p>
+                        </div>
+
+                        <div class="single-info password-input">
+                            <p class="heading-info">Potwierdź nowe hasło</p>
+                            <input type="password" id="confirm_password" name="confirm_password" placeholder="Potwierdź nowe hasło" required>
+                            <p id="err-confirm_password" class="error-message" style="text-align: center;"></p>
+                        </div>
+
+                        <button class="wyloguj-button"  type="submit">Zmień hasło</button>
+                    </form>
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const form = document.getElementById('change_password_form');
+                            const statusDiv = document.getElementById('password-change-status');
+
+                            function clearErrors() {
+                                document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+                                document.querySelectorAll('input').forEach(el => el.classList.remove('input-invalid'));
+                                statusDiv.textContent = '';
+                            }
+
+                            form.addEventListener('submit', async function(e) {
+                                e.preventDefault();
+                                clearErrors();
+                                
+                                const oldPassword = document.getElementById('old_password').value;
+                                const newPassword = document.getElementById('new_password').value;
+                                const confirmPassword = document.getElementById('confirm_password').value;
+
+                                if (newPassword !== confirmPassword) {
+                                    document.getElementById('err-confirm_password').textContent = 'Hasla nie sa identyczne.';
+                                    document.getElementById('confirm_password').classList.add('input-invalid');
+                                    return;
+                                }
+
+                                if (newPassword.length < 8) {
+                                    document.getElementById('err-new_password').textContent = 'Hasło musi mieć co najmniej 8 znaków, 1 cyfre, 1 znak specjalny';
+                                    document.getElementById('new_password').classList.add('input-invalid');
+                                    return;
+                                }
+
+                                const payload = {
+                                    old_password: oldPassword,
+                                    new_password: newPassword
+                                };
+
+                                try {
+                                    const response = await fetch('{{ url_for("change_password") }}', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify(payload)
+                                    });
+                                    
+                                    const data = await response.json();
+
+                                    if (data.success) {
+                                        statusDiv.style.color = 'green';
+                                        statusDiv.textContent = 'haslo zostało zmienione';
+                                        form.reset();
+                                    } else {
+                                        statusDiv.style.color = 'red';
+                                        if (data.field && data.error) {
+                                            const errorEl = document.getElementById('err-' + data.field);
+                                            const inputEl = document.getElementById(data.field);
+                                            if (errorEl) errorEl.textContent = data.error;
+                                            if (inputEl) inputEl.classList.add('input-invalid');
+                                            inputEl?.focus();
+                                        } else {
+                                            statusDiv.textContent = data.error || 'Wystąpil blad';
+                                        }
+                                    }
+
+                                } catch (err) {
+                                    statusDiv.style.color = 'red';
+                                    statusDiv.textContent = 'Błąd sieci';
+                                }
+                            });
+                        });
+                    </script>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "election_id": "65d124b9-e2ea-4fca-90e1-72af4ce53f6b",
+  "election_name": "Głosowanie Testowe E2E 1765644936621",
+  "total_votes": 179,
+  "candidates": [
+    {
+      "candidate_id": 1,
+      "first_name": "Adam",
+      "last_name": "Nowak",
+      "photo_path": null,
+      "votes": 176
+    },
+    {
+      "candidate_id": 2,
+      "first_name": "Ewa",
+      "last_name": "Kowalska",
+      "photo_path": null,
+      "votes": 2
+    },
+    {
+      "candidate_id": 3,
+      "first_name": "Jan",
+      "last_name": "Zieliński",
+      "photo_path": null,
+      "votes": 1
+    }
+  ]
+}

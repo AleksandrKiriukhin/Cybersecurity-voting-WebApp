@@ -1,0 +1,18 @@
+[
+  {
+    "candidate_id": 1,
+    "first_name": "Oleksandr",
+    "last_name": "Kiriukhin",
+    "photo_path": null,
+    "votes": 1669012859555692395,
+    "department_id": null
+  },
+  {
+    "candidate_id": 2,
+    "first_name": "User",
+    "last_name": "Userowicz",
+    "photo_path": "uploads/el_6b51f08c-ae91-41ca-9687-1405ae2099f2/2_mouse.png",
+    "votes": 341792181060881849,
+    "department_id": null
+  }
+]

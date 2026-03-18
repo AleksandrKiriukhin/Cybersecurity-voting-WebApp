@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Witamy na Simple Vote</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<script>
+  const rok = document.getElementById('rok-bizacy');
+  rok.textContent = new Date().getFullYear();
+</script>
+
+<body>
+
+    <header>
+        <div class="header-logo">
+
+            <a href="{{ url_for('start') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo">
+            </a>
+            
+        </div>
+        <div class="header-starter-buttons">
+            <button onclick="window.location.href='/register'">
+                Zarejestruj się
+            </button>
+            <button onclick="window.location.href='/login'">
+                Zaloguj się
+            </button>
+        </div>
+    </header>
+    
+    <main class="main-part-with-background">
+
+        <div class="main-page-content-container">
+
+            <h3>Witaj w Simple Vote!</h3>
+
+            <h1>Wybory Studenckie <span class="rok-wyborow" id="rok-biezacy"></span></h1>
+
+            <script>
+
+                document.addEventListener('DOMContentLoaded', function() {
+
+                const rok = document.getElementById('rok-biezacy');
+                rok.textContent = new Date().getFullYear();
+
+                });
+
+            </script>
+
+            <div class="live-sign">
+
+                <img src="{{ url_for('static', filename='images/live-circle.png') }}" alt="">
+                <p>LIVE!</p>
+
+            </div>
+            
+            <ul class="menu-main-page">
+
+                {% if logged_in %}
+                <li><button class="btn-glosuje" onclick="window.location.href='/main-page'">GŁOSUJĘ</button></li>
+                {% else %}
+                <li><button class="btn-glosuje" onclick="window.location.href='/login'">GŁOSUJĘ</button></li>
+                {% endif %}
+                <li><button class="btn-menu-simple-text" onclick="window.location.href='/login'">Przeprowadź głosowanie</button></li>
+                <li><button class="btn-menu-simple-text">Informacje</button></li>
+
+            </ul>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

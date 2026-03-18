@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oddanie głosu - Simple Vote</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/voting-page.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body data-max-votes="{{ election.max_votes_per_person }}" data-election-id="{{ election.id }}">
+
+    <header>
+        <div class="header-logo">
+
+            <a href="{{ url_for('start') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo">
+            </a>
+            
+        </div>
+        <div class="header-starter-buttons">
+            
+            <div class="header-icons-buttons">
+                <a href="{{ url_for('main_page') }}">
+                    <img src="{{ url_for('static', filename='images/home-icon.png') }}" alt="">
+                </a>
+                <a href="{{ url_for('user_overview_page') }}">
+                    <img src="{{ url_for('static', filename='images/users-icon-menu-top.png') }}" alt="">
+                </a>
+            </div>
+
+            <button onclick="window.location.href='/login'">
+                Wyloguj się
+            </button>
+        </div>
+    </header>
+    
+    <main class="main-part-with-background">
+
+        <div class="main-page-content-container">
+
+            <div class="main-white-container">
+
+                <div class="headings-container">
+                    <h1>Strona głosowania</h1>
+                    <p>Tu masz możliwość oddać swój głos na kandydatów</p>
+                </div>
+
+                {% if already_voted %}
+
+                <div class="already_voted">
+
+                    <h3>Juz oddales glos w tym glosowaniu</h3>
+
+                    <p>Czekaj na wyniki po <span style="color: #1A55D7; font-weight: 800; text-transform: uppercase;">{{ dataa }}</span></p>
+
+                    <button class="back-button" onclick="window.history.back()">
+                        Wróć
+                    </button>
+
+                </div>
+
+                {% elif now < election.start_date %}
+
+                <div class="already_voted">
+                    
+                    <h3>Głosowanie jeszcze jest planowane</h3>
+
+                    <p>Wracaj żeby oddać głos <span style="color: #1A55D7; font-weight: 800; text-transform: uppercase;">{{ dataa }}</span></p>
+
+                    <button class="back-button" onclick="window.history.back()">
+                        Wróć
+                    </button>
+
+                </div>
+
+                {% else %}
+
+                <div class="voting-section">
+
+                    <div class="department-heading">
+
+                        {% if logo %}
+
+                            <img src="{{ url_for('static', filename='images/' ~ logo) }}" alt="logo" class="dep-logo">
+                        
+                        {% endif %}
+
+                        <div class="department-name">
+                            <p>Wydział</p>
+                            <p>{{ election.department_name }}</p>
+                        </div>
+
+                    </div>
+
+                    <p class="list-candidates-heading">Lista kandydatów tego wydziału:</p>
+
+                    <div class="list-candidates">
+
+                        <div class="list-left-part">
+
+                            {% for candidate in candidates %}
+
+                                <div class="single-candidate">
+
+                                    <div class="left-part-candidate">
+
+                                        <div class="image-candidate">
+                                            {% if candidate.photo_path %}
+                                                <img src="{{ url_for('static', filename=candidate.photo_path) }}" alt="">
+                                            {% else %}
+                                                <img src="https://cdn-icons-png.flaticon.com/512/5231/5231019.png" alt="">
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="candidate-number">
+                                            {{ loop.index }}
+                                        </div>
+
+                                        <div class="place-for-tick" data-candidate-id="{{ candidate.candidate_id }}">
+                                    
+                                        </div>
+                                        
+
+                                    </div>
+
+                                    <div class="name-of-candidate">
+                                        <p class="name-cand">{{ candidate.first_name }} <span class="surname-cand">{{ candidate.last_name }}</span></p>
+                                    </div>
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                
+
+                        <!-- <script>
+
+                            document.addEventListener('DOMContentLoaded', function() {
+
+                                const ticks = Array.from(document.querySelectorAll('.place-for-tick'));
+
+                                ticks.forEach((el, idx) => {
+
+                                    const cid = parseInt(el.dataset.candidateId);
+
+                                    if (selected.has(cid)) {
+
+                                        selected.delete(cid);
+                                        el.classList.remove('active');
+                                        el.textContent = '';
+
+                                    } else {
+
+                                        if (selected.size >= maxVotes) {
+
+                                            alert(`Nie możesz wybrać więcej niż ${maxVotes} kandydatów.`);
+                                            return;
+                                        }
+
+                                        selected.add(cid);
+                                        el.classList.add('active');
+                                        el.textContent = 'X';
+
+                                    }
+
+                                    console.log("Aktualnie wybrani kandydaci:", Array.from(selected));
+
+                                })
+
+                                const voteButton = document.querySelector('.vote');
+
+                                if (voteButton) {
+
+                                    voteButton.addEventListener('click', async () => {
+
+                                        if (selected.size === 0) {
+
+                                            alert('Musisz wybrać przynajmniej jednego kandydata.');
+                                            return;
+                                        }
+
+                                        try {
+                                            const response = await fetch(`/api/submit_vote/{{ election.id }}`, {
+
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify({ selected: Array.from(selected) }),
+
+                                            });
+
+                                            const data = await response.json();
+
+                                            if (data.success) {
+
+                                                window.location.href = '/thanks';
+
+                                            } else {
+
+                                                alert(`Błąd: ${data.error}`);
+
+                                            }
+                                        } catch (err) {
+
+                                            console.error(err);
+                                            alert('Wystąpił błąd przy wysyłaniu głosu.');
+
+                                        }
+                                    });
+                                }
+
+                            })
+
+                                function toggleTick(e) {
+
+                                    this.classList.toggle('active')
+                                    const aktywny = this.classList.contains('active');
+                                    this.textContent = aktywny ? 'X' : '';
+                                    this.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+                                    
+                                }
+
+                        </script> -->
+
+                        <script>
+                                
+                                document.addEventListener('DOMContentLoaded', function () {
+
+                                    const maxVotes = parseInt(document.body.dataset.maxVotes, 10);
+                                    const electionId = document.body.dataset.electionId;
+
+                                    const selected = new Set();
+                                    const ticks = document.querySelectorAll('.place-for-tick');
+
+                                    ticks.forEach(el => {
+                                        el.addEventListener('click', function () {
+                                            const cid = parseInt(el.dataset.candidateId, 10);
+                                            if (selected.has(cid)) {
+                                                selected.delete(cid);
+                                                el.classList.remove('active');
+                                                el.textContent = '';
+                                            } else {
+                                                if (selected.size >= maxVotes) {
+                                                    alert(`Nie możesz wybrać więcej niż ${maxVotes} kandydatów.`);
+                                                    return;
+                                                }
+                                                selected.add(cid);
+                                                el.classList.add('active');
+                                                el.textContent = 'X';
+                                            }
+                                            console.log("Aktualnie wybrani:", Array.from(selected));
+                                        });
+                                    });
+
+                                    const voteButton = document.querySelector('.vote');
+                                    voteButton.setAttribute('type', 'button');
+
+                                    voteButton.addEventListener('click', async function (e) {
+                                        e.preventDefault();
+                                        if (selected.size === 0) {
+                                            alert('Wybierz przynajmniej jednego kandydata.');
+                                            return;
+                                        }
+
+                                        const payload = {
+                                            election_id: electionId,
+                                            selected_candidate_ids: Array.from(selected)
+                                        };
+
+                                        try {
+                                            const response = await fetch('{{ url_for("submit_vote") }}', {
+                                                method: 'POST',
+                                                credentials: 'include',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify(payload)
+                                            });
+
+                                            const data = await response.json();
+
+                                            if (response.ok && data.success) {
+                                                window.location.href = '/thanks';
+                                            } else {
+                                                alert(data.error || 'Błąd podczas zapisu głosu.');
+                                            }
+                                        } catch (err) {
+                                            console.error(err);
+                                            alert('Wystąpił błąd przy wysyłaniu głosu.');
+                                        }
+                                    });
+
+                                });
+
+
+                        </script>
+
+                    </div>
+
+                </div>
+
+                <div class="buttons-container">
+
+                    <button class="vote" type="button">
+                        Oddaj głos
+                    </button>
+                    <button class="back-button" onclick="window.history.back()">
+                        Wróć
+                    </button>
+
+
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

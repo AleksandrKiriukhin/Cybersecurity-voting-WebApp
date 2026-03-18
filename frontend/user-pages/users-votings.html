@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twoje głosowania - Simple Vote</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/users-votings.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-logo">
+
+            <a href="{{ url_for('start') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo">
+            </a>
+            
+        </div>
+        <div class="header-starter-buttons">
+            
+            <div class="header-icons-buttons">
+                <a href="{{ url_for('main_page') }}">
+                    <img src="{{ url_for('static', filename='images/home-icon.png') }}" alt="">
+                </a>
+                <a href="{{ url_for('user_overview_page') }}">
+                    <img src="{{ url_for('static', filename='images/users-icon-menu-top.png') }}" alt="">
+                </a>
+            </div>
+
+            <button onclick="window.location.href='/login'">
+                Wyloguj się
+            </button>
+        </div>
+    </header>
+    
+    <main class="main-part-with-background">
+
+        <div class="main-page-content-container">
+
+            <div class="main-white-container">
+
+                <div class="headings-container">
+                    <h1>Twoje głosowania</h1>
+                    <p>Tu masz możliwość zobaczyć wszystkie swoje głosowania</p>
+                </div>
+
+                <div class="list-of-available-votings">
+
+                    <!-- <div class="single-voting-box">
+
+                        <div class="single-voting">
+
+                            <div class="left-part-single-voting">
+                                <img src="{{ url_for('static', filename='images/noz-blue.png') }}" alt="logo-department">
+                                <div class="name-of-department-container">
+                                    <p class="wydzial-p">Wydział</p>
+                                    <p class="wydzial-name">Nauk o zdrowiu</p>
+                                </div>
+                            </div>
+
+                            <div class="right-part-single-voting">
+                                <p class="w-trakcie-tekst">W trakcie!</p>
+                                <img src="{{ url_for('static', filename='images/live-circle.png') }}" alt="live">
+                            </div>
+
+                        </div>
+
+                    </div> -->
+
+                    {% for e in elections %}
+
+                        <div class="single-voting-box">
+
+                            <a href="{{ url_for('voting_page', election_id=e.id) }}" style="text-decoration: none;">
+
+                                <div class="single-voting">
+
+                                    <div class="left-part-single-voting">
+                                        <img src="{{ url_for('static', filename='images/' ~ e.logo) }}" alt="logo-department">
+                                        <div class="name-of-department-container">
+                                            <p class="wydzial-p">Wydział</p>
+                                            <p class="wydzial-name">{{ e.department_name }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="right-part-single-voting">
+                                        <p class="w-trakcie-tekst">{{e.status}}</p>
+                                        <img src="{{ url_for('static', filename='images/' ~ e.circle) }}" alt="live">
+                                    </div>
+                                </div>
+                            </a>
+
+                            <span class="delete-icon-wrapper" style="cursor:pointer; color:red;" data-election-id="{{ e.id }}" role="button" aria-label="Usuń">
+                                <img src="{{ url_for('static', filename='images/delete-icon.png') }}" alt="" class="delete-icon">
+                            </span>
+
+                        </div>
+                        
+
+                    {% else %}
+
+                        <p>Brak dostępnych głosowań.</p>
+
+                    {% endfor %}
+
+                    <script>
+
+                        document.addEventListener('click', function (ev) {
+
+                            const el = ev.target.closest('.delete-icon-wrapper');
+
+                            if (!el) return;
+
+                            const electionId = el.dataset.electionId;
+
+                            if (!electionId) return;
+
+                            if (!confirm('Czy na pewno chcesz usunac to glosowanie?')) return;
+
+                            fetch(`/api/delete_voting/${electionId}`, { method: 'DELETE' })
+
+                                .then(r => r.json())
+
+                                .then(data => {
+
+                                    if (data.success) {
+                                        alert('Głosowanie usunięte!');
+                                        location.reload();
+                                        const box = document.getElementById(`voting-${electionId}`);
+                                        if (box) box.remove();
+                                                
+                                    } else {
+                                        alert(`Błąd: ${data.error}`);
+                                    }
+                                })
+                                .catch(err => {
+                                    console.error(err);
+                                    alert('Błąd sieci');
+                                });
+                        });
+
+                    </script>
+
+                </div>
+                
+                <div class="buttons-container">
+                    <button class="new-voting" onclick="window.location.href='/create-voting'">
+                        Nowe głosowanie
+                    </button>
+                    <button class="back-button" onclick="window.history.back()">
+                        Wróć
+                    </button>
+                </div>
+
+                </div>
+
+                
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

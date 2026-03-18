@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tworzenie głosowania - Simple Vote</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/create-voting-page.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-logo">
+
+            <a href="{{ url_for('start') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo">
+            </a>
+            
+        </div>
+        <div class="header-starter-buttons">
+            
+            <div class="header-icons-buttons">
+                <a href="{{ url_for('main_page') }}">
+                    <img src="{{ url_for('static', filename='images/home-icon.png') }}" alt="">
+                </a>
+                <a href="{{ url_for('user_overview_page') }}">
+                    <img src="{{ url_for('static', filename='images/users-icon-menu-top.png') }}" alt="">
+                </a>
+            </div>
+
+            <button onclick="window.location.href='/login'">
+                Wyloguj się
+            </button>
+        </div>
+    </header>
+    
+    <main class="main-part-with-background">
+
+        <div class="main-page-content-container">
+
+            <div class="main-white-container">
+
+                <div class="headings-container">
+                    <h1>Stwórz głosowanie</h1>
+                    <p>Tu masz możliwość wprowadzić dane dla twojego głosowania</p>
+                </div>
+
+                <div class="form-container">
+
+                    <form id="create-voting-form" enctype="multipart/form-data" class="form-create">
+                            
+                        <div class="single-input">
+
+                            <p>Nazwa</p>
+                        
+                            <div class="input-box"> 
+
+                                <input type="text" name="name" placeholder="Nazwa">
+
+                            </div>
+                        
+                        </div>
+
+                        <div class="single-choose-from-list">
+
+                            <p>Wydział</p>
+                        
+                                <div class="dropdown-menu" id="dropdown-dep" tabindex="0" aria-expanded="false" role="button" aria-haspopup="listbox"> 
+
+                                    <div class="display" id="display-dep">
+                                            Wydział
+                                    </div>
+
+                                    <div class="triangle-button">
+                                        <input type="hidden" name="department_id" id="department-id">
+                                        <img src="{{ url_for('static', filename='images/Polygon 1.png') }}" alt="">
+                                    </div>
+
+                                </div>
+
+                                <div class="wydzial-options" id="options-dep" role="listbox" aria-labelledby="dropdown-dep">
+                                    <ul>
+                                        <!-- <li role="option" tabindex="0" data-value="Budowy Maszyn i Informatyki"> 
+                                            Budowy Maszyn i Informatyki
+                                        </li>
+                                        <li role="option" tabindex="0" data-value="Nauk o zdrowiu"> 
+                                            Nauk o zdrowiu
+                                        </li>
+                                        <li role="option" tabindex="0" data-value="Zarządzania i Transportu"> 
+                                            Zarządzania i Transportu
+                                        </li>
+                                        <li role="option" tabindex="0" data-value="Humanistyczno‑Społeczny"> 
+                                            Humanistyczno‑Społeczny
+                                        </li>
+                                        <li role="option" tabindex="0" data-value="Inżynierii Materiałów, Budownictwa i Środowiska"> 
+                                            Inżynierii Materiałów, Budownictwa i...
+                                        </li> -->
+                                    </ul>
+                                </div>
+
+                            <script>
+
+                                const ul = document.querySelector('#options-dep ul');
+                                    const display_ = document.getElementById('display-dep');
+                                    const hiddenInput = document.getElementById('department-id');
+
+                                    fetch('https://localhost:5000/departments').then(wyn => wyn.json()).then(data => { ul.innerHTML='';
+                                        data.forEach(wydzial => {
+                                            const li = document.createElement('li');
+                                            li.textContent = wydzial.name;
+                                            li.setAttribute('data-value', wydzial.id);
+                                            li.setAttribute('role', 'option');
+                                            li.setAttribute('tabindex', '0');
+                                            ul.appendChild(li);
+                                        });
+
+                                        ul.querySelectorAll('li').forEach(li => {
+                                            li.onclick=function() {
+                                                display_.textContent = li.textContent;
+                                                hiddenInput.value = li.getAttribute('data-value');
+                                                dropdown_menu.classList.remove('open');
+                                            }
+                                        })
+                                    })
+
+                                    var dropdown_menu = document.getElementById('dropdown-dep');
+                                    var display = document.getElementById('display-dep');
+                                    // var opcje = document.getElementById('options-dep').querySelectorAll('li');
+                            
+                                    dropdown_menu.onclick = function(e) {
+                                        e.stopPropagation();
+                                        if (dropdown_menu.classList.contains('open')) dropdown_menu.classList.remove('open');
+                                        else dropdown_menu.classList.add('open');
+                                    }
+
+                                    // for (var i = 0; i < opcje.length; i++) {
+                                    //     opcje[i].onclick = function() {
+                                    //         display.textContent = this.textContent.trim();
+                                    //         dropdown_menu.classList.remove('open');
+                                    //     }
+                                    // }
+
+                                    document.onclick = function(e) {
+                                        var optionsDiv = document.getElementById('options-dep');
+                                        if (!dropdown_menu.contains(e.target) && !optionsDiv.contains(e.target)) {
+                                            dropdown_menu.classList.remove('open');
+                                        }
+                                    }
+
+                            </script>
+
+                        
+                        </div>
+
+                        <div class="single-input">
+
+                            <p>Data rozpoczęcia</p>
+                        
+                            <div class="input-box"> 
+
+                                <input type="date" name="start_date" placeholder="19/11/2025">
+
+                            </div>
+                        
+                        </div>
+
+                        <div class="single-input">
+
+                            <p>Data zakończenia</p>
+                        
+                            <div class="input-box"> 
+
+                                <input type="date" name="end_date" placeholder="19/12/2025">
+
+                            </div>
+                        
+                        </div>
+
+                        <div class="single-input">
+
+                            <p>Maksymalna liczba głosy/osoba</p>
+                        
+                            <div class="input-box"> 
+
+                                <input type="text" name="max_votes_per_person" placeholder="5">
+
+                            </div>
+                        
+                        </div>
+
+                        <p class="kandydaci-p">Kandydaci</p>
+
+                        <div class="single-input">
+
+                            <p>Imię</p>
+                        
+                            <div class="input-box"> 
+
+                                <input type="text" name="first_name" id="first_name" placeholder="Imię">
+
+                            </div>
+                        
+                        </div>
+
+                        <div class="single-input">
+
+                            <p>Nazwisko</p>
+                        
+                            <div class="input-box"> 
+
+                                <input type="text" name="last_name" id="last_name" placeholder="Nazwisko">
+
+                            </div>
+                        
+                        </div>
+
+                        <div class="image-and-add-container">
+
+                            <div class="single-input-image">
+
+                                <p>Zdjęcie</p>
+                        
+                                <div class="input-box-image"> 
+
+                                    <input type="file" name="photo" id="photo" placeholder="Zdjęcie" accept="image/*">
+
+                                </div>
+                        
+                            </div>
+
+                            <button class="add-candidate-button" id="add-candidate-button">
+                                Dodaj
+                            </button>
+
+                        </div>
+
+                        <p class="kandydaci-added-p">Dodani kandydaci:</p>
+
+                        <div class="added-candidates-list" id="added-candidates-list">
+
+                            <!-- <div class="single-candidate">
+
+                                <img src="{{ url_for('static', filename='images/delete-icon.png') }}" alt="" class="delete-icon">
+
+                                <div class="candidate-photo">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/5231/5231019.png" alt="" class="candidate-pic">
+                                </div>
+
+                                <p class="kandydat-imie"> Alicja <span class="kandydat-nazwisko">NOWAK</span></p>
+
+                            </div>
+
+                            <div class="single-candidate">
+
+                                <img src="{{ url_for('static', filename='images/delete-icon.png') }}" alt="" class="delete-icon">
+
+                                <div class="candidate-photo">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/5231/5231019.png" alt="" class="candidate-pic">
+                                </div>
+
+                                <p class="kandydat-imie"> Alicja <span class="kandydat-nazwisko">NOWAK</span></p>
+
+                            </div> -->
+
+                        </div>
+
+
+                        <button class="finish-button" type="submit">
+                            Utwórz
+                        </button>
+
+                        <button class="come-back" onclick="window.history.back()">
+                            Wróć
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <script>
+
+                    let candidateIndex = 0;
+                    const candidatesContainer = document.createElement('div'); 
+                    const addedCandidatesList = document.getElementById('added-candidates-list');
+
+                    document.getElementById('create-voting-form').appendChild(candidatesContainer);
+
+                    document.getElementById('add-candidate-button').addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const lastName = document.getElementById('last_name').value.trim();
+                    const firstName = document.getElementById('first_name').value.trim();
+                    const photoInput = document.getElementById('photo');
+
+                    if(!firstName || !lastName){
+                        alert("Podaj imię i nazwisko kandydata");
+                        return;
+                    }
+
+                    // Tworzymy elementy do FormData
+                    // const div = document.createElement('div');
+                    // div.innerHTML = `
+                    //     <input type="hidden" name="candidates[${candidateIndex}][first_name]" value="${firstName}">
+                    //     <input type="hidden" name="candidates[${candidateIndex}][last_name]" value="${lastName}">
+                    //     <input type="file" name="photo_${candidateIndex}" style="display:none;">
+                    // `;
+                    // const fileInputHidden = div.querySelector('input[type="file"]');
+                    // fileInputHidden.files = photoInput.files;
+                    
+                    // candidatesContainer.appendChild(div);
+
+                    // Dodanie wizualizacji kandydata
+                    console.log(photoInput.files[0])
+
+                    const candidateDiv = document.createElement('div');
+                    candidateDiv._file = photoInput.files[0];
+                    candidateDiv.className = 'single-candidate';
+                    candidateDiv.dataset.firstName = firstName;
+                    candidateDiv.dataset.lastName = lastName;
+
+                    candidateDiv.innerHTML = `
+                        <p class="kandydat-imie">${firstName} <span class="kandydat-nazwisko">${lastName}</span></p>
+                        <span style="cursor:pointer; color:red;" onclick="this.parentElement.remove()">
+                            <img src="{{ url_for('static', filename='images/delete-icon.png') }}" alt="" class="delete-icon">
+                            </span>
+                        `;
+                    addedCandidatesList.appendChild(candidateDiv);
+
+                    candidateIndex++;
+
+                    // Czyścimy pola
+                    document.getElementById('first_name').value = '';
+                    document.getElementById('last_name').value = '';
+                    photoInput.value = '';
+                });
+
+                // Pobranie wydziałów z backendu
+                //     fetch('/departments')
+                //         .then(res => res.json())
+                //         .then(data => {
+                //     const select = document.getElementById('department-select');
+                //     data.forEach(dep => {
+                //         const option = document.createElement('option');
+                //         option.value = dep.id;
+                //         option.textContent = dep.name;
+                //         select.appendChild(option);
+                //     });
+
+                //     // ustawienie hidden inputa
+                //     select.addEventListener('change', () => {
+                //         document.getElementById('department-id').value = select.value;
+                //     });
+                // });
+
+                // Wysyłka formularza
+                document.getElementById('create-voting-form').addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    const form = e.target;
+                    const formData = new FormData(form);
+
+                    const candidates = [];
+                    const candidateDivs = document.querySelectorAll('.single-candidate');
+
+                    candidateDivs.forEach((div, index) => {
+                        const first_name = div.dataset.firstName?.trim() || '';
+                        const last_name = div.dataset.lastName?.trim() || '';
+                        const file = div._file; 
+
+                        if (!first_name || !last_name) return;
+
+                        const photoFieldName = `photo_${index}`;
+
+                        candidates.push({
+                            first_name,
+                            last_name,
+                            photo_field: photoFieldName
+                        });
+
+                        if (file) {
+                            formData.append(photoFieldName, file, file.name);
+                        }
+                    });
+
+                    formData.set('candidates', JSON.stringify(candidates));
+
+                    fetch('/api/create_Voting', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.success){
+                            alert(`Głosowanie utworzone! ID: ${data.id_glosowania}`);
+                            window.location.href = `/vote/${data.id_glosowania}`;
+                        } else {
+                            alert(`Błąd: ${data.error}`);
+                        }               
+                    })
+                    .catch(err => console.error(err));
+                });
+
+                // print(request.form)
+                // print(request.files)
+
+                
+
+                </script>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

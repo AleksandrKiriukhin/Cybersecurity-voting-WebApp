@@ -1,0 +1,26 @@
+[
+  {
+    "candidate_id": 1,
+    "first_name": "Adam",
+    "last_name": "Nowak",
+    "photo_path": null,
+    "votes": 236825577257642014,
+    "department_id": null
+  },
+  {
+    "candidate_id": 2,
+    "first_name": "Ewa",
+    "last_name": "Kowalska",
+    "photo_path": null,
+    "votes": 702032859479851942,
+    "department_id": null
+  },
+  {
+    "candidate_id": 3,
+    "first_name": "Jan",
+    "last_name": "Zieliński",
+    "photo_path": null,
+    "votes": 1233477430239700932,
+    "department_id": null
+  }
+]

@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejestracja - Simple Vote</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+</head>
+<body>
+
+    <header>
+
+        <div class="header-logo">
+            
+            <a href="{{ url_for('start') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo">
+            </a>
+
+        </div>
+
+        <div class="header-starter-buttons">
+            <button onclick="window.location.href='/register'">
+                Zarejestruj się
+            </button>
+            <button onclick="window.location.href='/login'">
+                Zaloguj się
+            </button>
+        </div>
+
+    </header>
+    
+    <main class="main-part-with-background">
+
+        <div class="main-page-content-container">
+
+            <div class="main-white-container">
+
+                <div class="headings-container">
+                    <h1>Witamy!</h1>
+                    <p>Zarejestruj się za pomocą uczelnianego e-maila</p>
+                    <p>Masz już konto? <a href="/login" style="text-decoration: none;"><span style="color: #1A55D7;">LOGOWANIE</span></a></p>
+                </div>
+
+                <form id="regiter_form" method="POST" action="https://localhost:5000/register" novalidate>
+
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                    <div class="form-container">
+
+                        <div class="single-input">
+
+                            <p>Imię</p>
+                        
+                            <div class="input-box"> 
+
+                                <input type="text" id="first_name" name="first_name" placeholder="Imię">
+
+                            </div>
+
+                            <div class="error-info" id="err-first_name"></div>
+                        
+                        </div>
+
+                        <div class="single-input">
+
+                            <p>Nazwisko</p>
+                        
+                            <div class="input-box"> 
+
+                                <input type="text" id="last_name" name="last_name" placeholder="Nazwisko">
+
+                            </div>
+
+                            <div class="error-info" id="err-last_name"></div>
+                        
+                        </div>
+
+                        <div class="single-input">
+
+                            <p>E-mail</p>
+                        
+                            <div class="input-box"> 
+
+                                <input type="email" id="email" name="email" placeholder="E-mail">
+
+                            </div>
+
+                            <div class="error-info" id="err-email"></div>
+                        
+                        </div>
+
+                        <div class="single-input">
+
+                            <p>Hasło</p>
+                        
+                            <div class="input-box"> 
+
+                                <input type="password" id="password" name="password" placeholder="Hasło">
+
+                            </div>
+
+                            <div class="error-info" id="err-password"></div>
+                        
+                        </div>
+
+                        <div class="single-choose-from-list">
+
+                            <p>Wydział</p>
+                        
+                            <div class="dropdown-menu" id="dropdown-dep" tabindex="0" aria-expanded="false" role="button" aria-haspopup="listbox"> 
+
+                                <div class="display" id="display-dep">
+                                        Wydział
+                                </div>
+
+                                <div class="triangle-button">
+                                    <input type="hidden" name="department_id" id="department-id">
+                                    <img src="{{ url_for('static', filename='images/Polygon 1.png') }}" alt="">
+                                </div>
+
+                            </div>
+
+                            <div class="wydzial-options" id="options-dep" role="listbox" aria-labelledby="dropdown-dep">
+                                <ul>
+                                    <!-- <li role="option" tabindex="0" data-value="Budowy Maszyn i Informatyki"> 
+                                        Budowy Maszyn i Informatyki
+                                    </li>
+                                    <li role="option" tabindex="0" data-value="Nauk o zdrowiu"> 
+                                        Nauk o zdrowiu
+                                    </li>
+                                    <li role="option" tabindex="0" data-value="Zarządzania i Transportu"> 
+                                        Zarządzania i Transportu
+                                    </li>
+                                    <li role="option" tabindex="0" data-value="Humanistyczno‑Społeczny"> 
+                                        Humanistyczno‑Społeczny
+                                    </li>
+                                    <li role="option" tabindex="0" data-value="Inżynierii Materiałów, Budownictwa i Środowiska"> 
+                                        Inżynierii Materiałów, Budownictwa i...
+                                    </li> -->
+                                </ul>
+                            </div>
+
+                            <script src="https://www.google.com/recaptcha/api.js?render=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></script>
+
+                            <script>
+
+                                const ul = document.querySelector('#options-dep ul');
+                                const display_ = document.getElementById('display-dep');
+                                const hiddenInput = document.getElementById('department-id');
+
+                                fetch('https://localhost:5000/departments').then(wyn => wyn.json()).then(data => { ul.innerHTML='';
+                                    data.forEach(wydzial => {
+                                        const li = document.createElement('li');
+                                        li.textContent = wydzial.name;
+                                        li.setAttribute('data-value', wydzial.id);
+                                        li.setAttribute('role', 'option');
+                                        li.setAttribute('tabindex', '0');
+                                        ul.appendChild(li);
+                                    });
+
+                                    ul.querySelectorAll('li').forEach(li => {
+                                        li.onclick=function() {
+                                            display_.textContent = li.textContent;
+                                            hiddenInput.value = li.getAttribute('data-value');
+                                            dropdown_menu.classList.remove('open');
+                                        }
+                                    })
+                                })
+
+                                var dropdown_menu = document.getElementById('dropdown-dep');
+                                var display = document.getElementById('display-dep');
+                                // var opcje = document.getElementById('options-dep').querySelectorAll('li');
+                            
+                                dropdown_menu.onclick = function(e) {
+                                    e.stopPropagation();
+                                    if (dropdown_menu.classList.contains('open')) dropdown_menu.classList.remove('open');
+                                    else dropdown_menu.classList.add('open');
+                                }
+
+                                // for (var i = 0; i < opcje.length; i++) {
+                                //     opcje[i].onclick = function() {
+                                //         display.textContent = this.textContent.trim();
+                                //         dropdown_menu.classList.remove('open');
+                                //     }
+                                // }
+
+                                document.onclick = function(e) {
+                                    var optionsDiv = document.getElementById('options-dep');
+                                    if (!dropdown_menu.contains(e.target) && !optionsDiv.contains(e.target)) {
+                                        dropdown_menu.classList.remove('open');
+                                    }
+                                }
+
+                                const form = document.getElementById('regiter_form');
+
+                                const email_wzor = /^s\d+@student\.ubb\.edu\.pl$/;
+                                const haslo_wzor = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+
+                                function see_error(id, message) {
+                                    const element = document.getElementById('err-' + id);
+                                    const input = document.getElementById(id);
+
+                                    if(message) {
+                                        element.textContent = message;
+                                        input.classList.add('err-' + id);
+
+                                    }
+                                    else {
+                                        element.textContent = '';
+                                        input.classList.remove('err-' + id);
+                                    }
+                                }
+
+                                function sprawdzenie(id) {
+                                    const input = document.getElementById(id).value.trim();
+                                    if (id === 'first_name' || id === 'last_name') {
+                                        if (!input) {
+                                            see_error (id, 'To pole nie mozna zostawic pustym'); return false; 
+                                            }
+                                            see_error(id, ''); 
+                                            return true;
+
+                                    }
+
+                                    if (id === 'email') {
+                                        if (!input) {
+                                            see_error (id, 'Wpisz adres email! Nie moze byc pusty!'); return false; 
+                                            }
+                                        if (!email_wzor.test(input)) {
+                                            see_error (id, 'Email musi byc w formacie s*****@student.ubb.edu.pl'); return false; 
+                                            }
+                                            see_error(id, ''); 
+                                            return true;
+
+                                    }
+
+                                    if (id === 'password') {
+                                        if (!input) {
+                                            see_error (id, 'Wpisz haslo! Nie moze byc puste!'); return false; 
+                                            }
+                                        if (!haslo_wzor.test(input)) {
+                                            see_error (id, 'Haslo musi zawierac min 8 znakow, 1 duza litere, 1 mala litere, 1 znak specjalny'); return false; 
+                                            }
+                                            see_error(id, ''); 
+                                            return true;
+
+                                    }
+
+                                    if (id === 'department-id') {
+                                        if (!input) {
+                                            see_error (id, 'Wybierz wydzial! Nie moze byc pusty!'); return false; 
+                                            }
+                                            see_error(id, ''); 
+                                            return true;
+
+                                    }
+
+                                }
+
+                                const form1 = document.getElementById('regiter_form');
+
+                                const regTop = document.getElementById('login-error-top');
+
+                                function showTopLoginError(message) {
+                                    if (!regTop) {
+                                        alert(message);
+                                        return;
+                                    }
+                                    regTop.textContent = message;
+                                }
+
+                                if (form1) {
+
+                                    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+                                    const formData = new FormData(form1);
+                                    if (csrfToken) {
+                                        formData.set('csrf_token', csrfToken);
+                                    }
+
+
+                                    form1.addEventListener('submit', async function(e) {
+                                    e.preventDefault();
+
+                                    document.getElementById('loading-info').style.display = 'block';
+
+                                    const formData = new FormData(form1);
+                                    const recaptchaSiteKey = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
+
+                                    try {
+
+                                        await grecaptcha.ready();
+
+                                        const token = await grecaptcha.execute(recaptchaSiteKey, { action: 'login' });
+
+                                        formData.set('g-recaptcha-response', token);
+
+                                    } catch (err) {
+
+                                        console.warn('reCAPTCHA failed to execute, sending without token', err);
+                                        // fallback: możesz zrezygnować z wysyłania lub wysłać bez tokena
+                                    }
+
+                                    try {
+
+                                    const res = await fetch('/register', {
+                                        method: 'POST',
+                                        body: formData
+                                    });
+
+                                    const data = await res.json();
+
+                                    if (!res.ok) {
+
+                                        if (data.field && data.error) {
+
+                                            const el = document.getElementById(data.field);
+                                            const errEl = document.getElementById('err-' + data.field);
+                                            if (errEl) errEl.textContent = data.error;
+                                            if (el) el.classList.add('input-invalid');
+                                            el?.focus();
+                                        } else {
+
+                                            showTopLoginError(data.error || 'Błąd logowania');
+
+                                            }
+
+                                            return;
+                                        }
+
+                                        if (data.success && data.redirect) {
+
+                                            window.location.href = data.redirect;
+
+                                        } else {
+
+                                            showTopLoginError('Zalogowano pomyślnie.');
+                                        }
+                                        } catch (err) {
+
+                                            console.error(err);
+
+                                            showTopLoginError('Błąd sieci. Spróbuj ponownie.');
+                                        }
+                                    });
+                                } else {
+                                    console.warn('Brak formularza #login_form w DOM');
+                                }
+            
+
+                            </script>
+
+                        
+                    </div>
+
+                    <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+
+                    <p id="loading-info" style="text-align: center; display:none;">
+                        Czekaj, trwa rejestracja...
+                    </p>
+
+                    <button class="finish-button" type="submit">
+                        Zarejestruj się
+                        <!-- onclick="window.location.href='/frontend/user-pages/main-page.html'" -->
+                    </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    
+</body>
+</html>

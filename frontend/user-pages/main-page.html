@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strona główna - Simple Vote</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main-page.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-logo">
+
+            <a href="{{ url_for('start') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo">
+            </a>
+            
+        </div>
+        <div class="header-starter-buttons">
+            
+            <div class="header-icons-buttons">
+                <a href="{{ url_for('main_page') }}">
+                    <img src="{{ url_for('static', filename='images/home-icon.png') }}" alt="">
+                </a>
+                <a href="{{ url_for('user_overview_page') }}">
+                    <img src="{{ url_for('static', filename='images/users-icon-menu-top.png') }}" alt="">
+                </a>
+            </div>
+
+            <button onclick="window.location.href='/login'">
+                Wyloguj się
+            </button>
+        </div>
+    </header>
+    
+    <main class="main-part-with-background">
+
+        <div class="main-page-content-container">
+
+            <div class="main-white-container">
+
+                <div class="headings-container">
+                    <h1>Strona główna</h1>
+                    <p>Tu masz wszystkie dostępne głosowania</p>
+                </div>
+
+                <!-- <div class="list-of-available-votings">
+
+                    <div class="single-voting-box">
+
+                        <a href="" style="text-decoration: none;">
+
+                        
+                            <div class="single-voting-active">
+
+                                <div class="left-part-single-voting">
+                                    <img src="{{ url_for('static', filename='images/bmii-white.png') }}" alt="logo-department">
+                                    <div class="name-of-department-container">
+                                        <p class="wydzial-p">Wydział</p>
+                                        <p class="wydzial-name">Budowy Maszyn i Informatyki</p>
+                                    </div>
+                                </div>
+
+                                <div class="right-part-single-voting">
+                                    <p class="w-trakcie-tekst">W trakcie!</p>
+                                    <img src="{{ url_for('static', filename='images/live-circle.png') }}" alt="live">
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <div class="single-voting-box">
+
+                        <div class="single-voting-non-active">
+
+                            <div class="left-part-single-voting">
+                                <img src="{{ url_for('static', filename='images/noz-blue.png') }}" alt="logo-department">
+                                <div class="name-of-department-container">
+                                    <p class="wydzial-p">Wydział</p>
+                                    <p class="wydzial-name">Nauk o zdrowiu</p>
+                                </div>
+                            </div>
+
+                            <div class="right-part-single-voting">
+                                <p class="w-trakcie-tekst">W trakcie!</p>
+                                <img src="{{ url_for('static', filename='images/live-circle.png') }}" alt="live">
+                            </div>
+
+                        </div>
+
+                        <img class="lock" src="{{ url_for('static', filename='images/lock.png') }}" alt="lock">
+
+                    </div>
+
+                </div> -->
+
+                <div class="list-of-available-votings">
+
+                    {% for e in elections %}
+
+                        <div class="single-voting-box">
+
+                        {% if e.is_unlocked %}
+
+                            {% if e.status == 'W trakcie' %}
+
+                                <a href="{{ url_for('voting_page', election_id=e.id) }}" style="text-decoration:none;">
+
+                            {% elif e.status == 'Zakończone' %}
+
+                                <a href="{{ url_for('results_for_election', election_id=e.id) }}" style="text-decoration:none;">
+
+                            {% else %}
+
+                                <a href="{{ url_for('voting_page', election_id=e.id) }}" style="text-decoration:none;">
+
+                            {% endif %}
+
+                            <!-- {# odblokowane: mogą być aktywne lub zwykłe odblokowane #}
+
+                            <a href="{{ url_for('voting_page', election_id=e.id) }}" style="text-decoration: none;"> -->
+
+                            {% if e.is_active %}
+
+                                <div class="single-voting-active">
+
+                            {% else %}
+
+                                <div class="single-voting-active">
+
+                            {% endif %}
+
+                                    <div class="left-part-single-voting">
+                                        <img src="{{ url_for('static', filename='images/' ~ e.logo) }}" alt="logo-department">
+                                        <div class="name-of-department-container">
+                                            <p class="wydzial-p">Wydział</p>
+                                            <p class="wydzial-name">{{ e.department_name }}</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="right-part-single-voting">
+                                        <p class="w-trakcie-tekst">{{e.status}}</p>
+                                        <img src="{{ url_for('static', filename='images/' ~ e.circle ) }}" alt="live">
+                                    </div>
+                                </div>
+                            </a>
+
+                        {% else %}
+
+                            {# zablokowane: bez linku i z kłódką #}
+
+                            <div class="single-voting-non-active">
+                                <div class="left-part-single-voting">
+                                    <img src="{{ url_for('static', filename='images/' ~ e.logo) }}" alt="logo-department">
+                                    <div class="name-of-department-container">
+                                        <p class="wydzial-p">Wydział</p>
+                                        <p class="wydzial-name">{{ e.department_name }}</p>
+                                    </div>
+                                </div>
+
+                                <div class="right-part-single-voting">
+                                    <p class="w-trakcie-tekst">{{e.status}}</p>
+                                    <img src="{{ url_for('static', filename='images/' ~ e.circle ) }}" alt="live">
+                                </div>
+                            </div>
+
+                            <img class="lock" src="{{ url_for('static', filename='images/lock.png') }}" alt="lock">
+
+                        {% endif %}
+
+                        </div>
+
+                    {% else %}
+
+                        <p>Brak dostępnych głosowań.</p>
+
+                    {% endfor %}
+
+                    </div>
+
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

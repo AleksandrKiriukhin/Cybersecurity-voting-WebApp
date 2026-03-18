@@ -1,0 +1,21 @@
+{
+  "election_id": "6b51f08c-ae91-41ca-9687-1405ae2099f2",
+  "election_name": "First",
+  "total_votes": 2,
+  "candidates": [
+    {
+      "candidate_id": 1,
+      "first_name": "Oleksandr",
+      "last_name": "Kiriukhin",
+      "photo_path": null,
+      "votes": 2
+    },
+    {
+      "candidate_id": 2,
+      "first_name": "User",
+      "last_name": "Userowicz",
+      "photo_path": "uploads/el_6b51f08c-ae91-41ca-9687-1405ae2099f2/2_mouse.png",
+      "votes": 0
+    }
+  ]
+}

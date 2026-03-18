@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wyniki glosowania - Simple Vote</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/voting-results.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-logo">
+
+            <a href="{{ url_for('start') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo">
+            </a>
+            
+        </div>
+        <div class="header-starter-buttons">
+            
+            <div class="header-icons-buttons">
+                <a href="{{ url_for('main_page') }}">
+                    <img src="{{ url_for('static', filename='images/home-icon.png') }}" alt="">
+                </a>
+                <a href="{{ url_for('user_overview_page') }}">
+                    <img src="{{ url_for('static', filename='images/users-icon-menu-top.png') }}" alt="">
+                </a>
+            </div>
+
+            <button onclick="window.location.href='/login'">
+                Wyloguj się
+            </button>
+        </div>
+    </header>
+    
+    <main class="main-part-with-background">
+
+        <div class="main-page-content-container">
+
+            <div class="main-white-container">
+
+                <div class="headings-container">
+                    <h1>Wyniki głosowania</h1>
+                    <p>Tu masz możliwość zobaczyć jak wyglądają wyniki głosowania</p>
+                </div>
+
+                <div class="voting-section">
+
+                    <div class="department-heading">
+
+                        {% if logo %}
+                            <img src="{{ url_for('static', filename='images/' ~ logo) }}" alt="logo" class="dep-logo">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='images/default-dep.png') }}" alt="logo" class="dep-logo">
+                        {% endif %}
+
+                        <div class="department-name">
+                            <p>Wydział</p>
+                            <p>{{ election.department_name if election.department_name else "Brak danych" }}</p>
+                        </div>
+
+                    </div>
+
+                    <p class="list-candidates-heading">Wyniki głosowania dla tego wydziału:</p>
+
+                    <div class="list-candidates">
+
+                        <div class="list-left-part">
+
+                            {% if candidates %}
+
+                                {% for cand in candidates %}
+                                <div class="single-candidate">
+                                    <div class="left-part-candidate">
+                                    <div class="image-candidate">
+                                        {% if cand.photo_path %}
+                                        <img src="{{ url_for('static', filename=cand.photo_path) }}" alt="">
+                                        {% else %}
+                                        <img src="https://cdn-icons-png.flaticon.com/512/5231/5231019.png" alt="">
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="candidate-number">{{ loop.index }}</div>
+
+                                    <div class="amount-of-point">{{ cand.votes }}</div>
+
+                                    <div class="rating-bar">
+                                        <div class="rating-bar-filling" data-votes="{{ cand.votes }}"></div>
+                                    </div>
+                                    </div>
+
+                                    <div class="name-of-candidate">
+                                    <p class="name-cand">{{ cand.first_name }} <span class="surname-cand">{{ cand.last_name }}</span></p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                            {% else %}
+
+                            <p>Brak kandydatów</p>
+                            
+                            {% endif %}
+
+                            <!-- <div class="single-candidate">
+
+                                <div class="left-part-candidate">
+
+                                    <div class="image-candidate">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/5231/5231019.png" alt="">
+                                    </div>
+
+                                    <div class="candidate-number">
+                                        2
+                                    </div>
+
+                                    <div class="amount-of-point">
+                                        321
+                                    </div>
+
+                                    <div class="rating-bar">
+                                        <div class="rating-bar-filling"></div>
+                                    </div>
+
+                                </div>
+
+                                <div class="name-of-candidate">
+                                    <p class="name-cand">Natalia <span class="surname-cand">NOWAKOWSKA</span></p>
+                                </div>
+
+                            </div>
+
+                             <div class="single-candidate">
+
+                                <div class="left-part-candidate">
+
+                                    <div class="image-candidate">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/5231/5231019.png" alt="">
+                                    </div>
+
+                                    <div class="candidate-number">
+                                        3
+                                    </div>
+
+                                    <div class="amount-of-point">
+                                        111
+                                    </div>
+
+                                    <div class="rating-bar">
+                                        <div class="rating-bar-filling"></div>
+                                    </div>
+
+                                </div>
+
+                                <div class="name-of-candidate">
+                                    <p class="name-cand">Julia <span class="surname-cand">RAKOWSKA</span></p>
+                                </div>
+
+                            </div> -->
+
+                        </div>
+
+                    </div>
+
+                    <script>
+
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const fillings = document.querySelectorAll('.rating-bar-filling');
+
+                            const votesArr = Array.from(fillings).map(f => {
+                                const v = parseInt(f.dataset.votes);
+                                return Number.isFinite(v) ? v : 0;
+                            });
+
+                            
+                            const maxPoints = votesArr.length ? Math.max(...votesArr) : 0;
+
+                            fillings.forEach((f, idx) => {
+                                const points = votesArr[idx] || 0;
+                                const percent = (maxPoints > 0) ? Math.round((points / maxPoints) * 100) : 0;
+                                f.style.width = percent + '%';
+                                
+                            });
+                        });
+
+                    </script>
+
+                </div>
+
+                <div class="buttons-container">
+                    <button class="back-button" onclick="window.history.back()">
+                        Wróć
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

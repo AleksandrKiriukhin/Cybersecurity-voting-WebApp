@@ -1,0 +1,945 @@
+@media (min-width: 1025px) {
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Work Sans', sans-serif;
+    }
+
+    header {
+        width: 100%;
+        background-color: #1A55D7;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'Work Sans', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header-starter-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        padding: 10px;
+        margin-right: 10px;
+    }  
+
+    .header-starter-buttons button {
+        color: #FFFFFF;
+        background: none;
+        border: 0;
+        font-size: 20px;
+        font-weight: 600;
+        transition: transform 0.8s ease-out;
+        cursor: pointer;
+    } 
+
+    .header-starter-buttons button:hover {
+        color: #F4FF52;
+    }
+
+    main {
+        background: linear-gradient(to bottom, #1A55D7, #ffffff);
+        height: auto;
+        margin: 0;
+        padding: 10px;
+        justify-items: center;
+    }
+
+    .main-white-container {
+        width: 900px;
+        height: auto;
+        padding: 20px;
+        background-color: #FFFFFF;
+        border-radius: 0 50px 0 50px;
+        box-shadow: 10px 10px 200px 30px #1A55D7;
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+ 
+    .header-icons-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .header-icons-buttons img {
+        height: auto;
+        width: 40px;
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .header-icons-buttons img:hover {
+        transform: scale(1.1);
+    }
+
+    .headings-container {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
+        width: 100%;
+    }
+
+    .headings-container h1 {
+        font-size: 44px;
+        color: #1A55D7;
+    }
+
+    .headings-container p {
+        font-size: 18px;
+        color: #000000;
+        font-weight: 600;
+    }
+
+    .already_voted {
+        display: flex;
+        flex-direction: column;
+        padding-top: 10px;
+        gap: 10px;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .buttons-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        margin-top: 10px;
+        align-items: center;
+    }
+
+    .vote {
+        height: 56px;
+        width: 308px;
+
+        background-image: linear-gradient(to right, #1A55D7 50%, #EFF7F9 50%);
+        background-size: 200% 100%;          
+        background-position: left center;
+
+        color: #EFF7F9;
+        font-size: 24px;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+
+        cursor: pointer;
+        transition: background-position 0.8s ease, color 0.8s;
+        transition: background-position 0.8s ease, color 0.8s ease, transform 0.8s ease;
+    }
+
+    .vote:hover {
+        background-position: right center;  
+        color: #1A55D7;                     
+        transform: scale(1.03);
+    }
+
+    .back-button {
+
+        height: 46px;
+        width: 208px;
+
+        background-image: linear-gradient(to right, #EFF7F9 50%, #1A55D7 50%);
+        background-size: 200% 100%;          
+        background-position: left center;
+
+        color: #1A55D7;
+        font-size: 20px;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+
+        cursor: pointer;
+        transition: background-position 0.8s ease, color 0.8s;
+        transition: background-position 0.8s ease, color 0.8s ease, transform 0.8s ease;
+    }
+
+    .back-button:hover {
+        background-position: right center;  
+        color: #EFF7F9;                     
+        transform: scale(1.03);
+    }
+
+    .voting-section {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .department-heading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .department-name {
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+    .department-name p {
+        font-size: 15px;
+        font-weight: 600;
+        color: #1A55D7;
+        text-align: center;
+    }
+
+    .list-candidates {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .list-candidates-heading {
+        font-size: 17px;
+        font-weight: 600;
+        color: #000000;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        padding: 5px;
+    }
+
+    .single-candidate {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    .image-candidate {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #1A55D7;
+        overflow: hidden;
+    }
+
+    .image-candidate img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .candidate-number {
+        display: flex;
+        width: 40px;
+        height: 40px;
+        border: 0px;
+        background-color: #1A55D7;
+        color: #FFFFFF;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 25px;
+    }
+
+    .place-for-tick {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #1A55D7;
+        overflow: hidden;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 25px;
+        font-weight: bold;
+        color: transparent;
+        transition: color 0.2s, background-color 0.2s;
+        user-select: none;
+
+    }
+
+    .place-for-tick.active {
+        color: #1A55D7;
+    }   
+
+    .left-part-candidate {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .name-cand {
+        font-size: 25px;
+        font-weight: 400;
+        color: #1A55D7;
+    }
+
+    .surname-cand {
+        font-size: 25px;
+        font-weight: 800;
+        color: #1A55D7;
+        text-transform: uppercase;
+    }
+
+    .name-of-candidate {
+        display: flex;
+        align-items: center;
+    }
+
+    .list-left-part {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: start;
+
+    }
+}
+
+@media (min-width: 480px) and (max-width: 1024px) {
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Work Sans', sans-serif;
+    }
+
+    header {
+        width: 100%;
+        background-color: #1A55D7;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        /* padding: 10px; */
+        font-family: 'Work Sans', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header-logo img {
+        width: auto;
+        height: 50px;
+    }
+
+    .header-starter-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        padding: 10px;
+        margin-right: 10px;
+    }  
+
+    .header-starter-buttons button {
+        color: #FFFFFF;
+        background: none;
+        border: 0;
+        font-size: 15px;
+        font-weight: 600;
+        transition: transform 0.8s ease-out;
+        cursor: pointer;
+    } 
+
+    .header-starter-buttons button:hover {
+        color: #F4FF52;
+    }
+
+    main {
+        background: linear-gradient(to bottom, #1A55D7, #ffffff);
+        height: auto;
+        margin: 0;
+        padding: 10px;
+        justify-items: center;
+    }
+
+    .main-white-container {
+        width: 440px;
+        height: auto;
+        padding: 20px;
+        background-color: #FFFFFF;
+        border-radius: 0 40px 0 40px;
+        box-shadow: 10px 10px 200px 30px #1A55D7;
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+ 
+    .header-icons-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .header-icons-buttons img {
+        height: auto;
+        width: 30px;
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .header-icons-buttons img:hover {
+        transform: scale(1.1);
+    }
+
+    .headings-container {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
+        width: 100%;
+    }
+
+    .headings-container h1 {
+        font-size: 22px;
+        color: #1A55D7;
+    }
+
+    .headings-container p {
+        font-size: 13px;
+        color: #000000;
+        font-weight: 600;
+    }
+
+    .already_voted {
+        display: flex;
+        flex-direction: column;
+        padding-top: 10px;
+        gap: 10px;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .buttons-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        align-items: center;
+    }
+
+    .vote {
+        height: 42px;
+        width: 188px;
+        margin-top: 10px;
+
+        background-image: linear-gradient(to right, #1A55D7 50%, #EFF7F9 50%);
+        background-size: 200% 100%;          
+        background-position: left center;
+
+        color: #EFF7F9;
+        font-size: 18px;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+
+        cursor: pointer;
+        transition: background-position 0.8s ease, color 0.8s;
+        transition: background-position 0.8s ease, color 0.8s ease, transform 0.8s ease;
+    }
+
+    .vote:hover {
+        background-position: right center;  
+        color: #1A55D7;                     
+        transform: scale(1.03);
+    }
+
+    .back-button {
+
+        height: 36px;
+        width: 140px;
+
+        background-image: linear-gradient(to right, #EFF7F9 50%, #1A55D7 50%);
+        background-size: 200% 100%;          
+        background-position: left center;
+
+        color: #1A55D7;
+        font-size: 17px;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+
+        cursor: pointer;
+        transition: background-position 0.8s ease, color 0.8s;
+        transition: background-position 0.8s ease, color 0.8s ease, transform 0.8s ease;
+    }
+
+    .back-button:hover {
+        background-position: right center;  
+        color: #EFF7F9;                     
+        transform: scale(1.03);
+    }
+
+    .dep-logo {
+        width: 35px;
+        height: 35px;
+    }
+
+    .voting-section {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .department-heading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .department-name {
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+    .department-name p {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1A55D7;
+        text-align: center;
+    }
+
+    .list-candidates {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .list-candidates-heading {
+        font-size: 13px;
+        font-weight: 600;
+        color: #000000;
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        padding: 5px;
+    }
+
+    .single-candidate {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    .image-candidate {
+        width: 30px;
+        height: 30px;
+        border: 3px solid #1A55D7;
+        overflow: hidden;
+    }
+
+    .image-candidate img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .candidate-number {
+        display: flex;
+        width: 30px;
+        height: 30px;
+        border: 0px;
+        background-color: #1A55D7;
+        color: #FFFFFF;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 25px;
+    }
+
+    .place-for-tick {
+        width: 30px;
+        height: 30px;
+        border: 3px solid #1A55D7;
+        overflow: hidden;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 20px;
+        font-weight: bold;
+        color: transparent;
+        transition: color 0.2s, background-color 0.2s;
+        user-select: none;
+
+    }
+
+    .place-for-tick.active {
+        color: #1A55D7;
+    }   
+
+    .left-part-candidate {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .name-cand {
+        font-size: 20px;
+        font-weight: 400;
+        color: #1A55D7;
+    }
+
+    .surname-cand {
+        font-size: 20px;
+        font-weight: 800;
+        color: #1A55D7;
+        text-transform: uppercase;
+    }
+
+    .name-of-candidate {
+        display: flex;
+        align-items: center;
+    }
+
+    .list-left-part {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: start;
+
+    }
+
+
+}
+
+@media (max-width: 481px) {
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Work Sans', sans-serif;
+    }
+
+    .header-logo img {
+        width: auto;
+        height: 30px;
+    }
+
+    header {
+        width: 100%;
+        background-color: #1A55D7;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        /* padding: 10px; */
+        font-family: 'Work Sans', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .header-starter-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        padding: 10px;
+        margin-right: 10px;
+    }  
+
+    .header-starter-buttons button {
+        color: #FFFFFF;
+        background: none;
+        border: 0;
+        font-size: 10px;
+        font-weight: 600;
+        transition: transform 0.8s ease-out;
+        cursor: pointer;
+    } 
+
+    .header-starter-buttons button:hover {
+        color: #F4FF52;
+    }
+
+    main {
+        background: linear-gradient(to bottom, #1A55D7, #ffffff);
+        height: auto;
+        margin: 0;
+        padding: 10px;
+        justify-items: center;
+    }
+
+    .main-white-container {
+        width: 280px;
+        height: auto;
+        padding: 20px;
+        background-color: #FFFFFF;
+        border-radius: 0 40px 0 40px;
+        box-shadow: 10px 10px 200px 30px #1A55D7;
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+ 
+    .header-icons-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        align-items: center;
+    }
+
+    .header-icons-buttons img {
+        height: auto;
+        width: 20px;
+        transition: transform 0.5s ease-in-out;
+    }
+
+    .header-icons-buttons img:hover {
+        transform: scale(1.1);
+    }
+
+    .headings-container {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: center;
+        width: 100%;
+    }
+
+    .headings-container h1 {
+        font-size: 16px;
+        color: #1A55D7;
+    }
+
+    .headings-container p {
+        font-size: 10px;
+        color: #000000;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .already_voted {
+        display: flex;
+        flex-direction: column;
+        padding-top: 5px;
+        gap: 5px;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .buttons-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        align-items: center;
+    }
+
+    .vote {
+        height: 30px;
+        width: 140px;
+        margin-top: 10px;
+
+        background-image: linear-gradient(to right, #1A55D7 50%, #EFF7F9 50%);
+        background-size: 200% 100%;          
+        background-position: left center;
+
+        color: #EFF7F9;
+        font-size: 15px;
+        font-weight: 600;
+        border: none;
+        border-radius: 5px;
+
+        cursor: pointer;
+        transition: background-position 0.8s ease, color 0.8s;
+        transition: background-position 0.8s ease, color 0.8s ease, transform 0.8s ease;
+    }
+
+    .vote:hover {
+        background-position: right center;  
+        color: #1A55D7;                     
+        transform: scale(1.03);
+    }
+
+    .back-button {
+
+        height: 25px;
+        width: 120px;
+
+        background-image: linear-gradient(to right, #EFF7F9 50%, #1A55D7 50%);
+        background-size: 200% 100%;          
+        background-position: left center;
+
+        color: #1A55D7;
+        font-size: 14px;
+        font-weight: 600;
+        border: none;
+        border-radius: 5px;
+
+        cursor: pointer;
+        transition: background-position 0.8s ease, color 0.8s;
+        transition: background-position 0.8s ease, color 0.8s ease, transform 0.8s ease;
+    }
+
+    .back-button:hover {
+        background-position: right center;  
+        color: #EFF7F9;                     
+        transform: scale(1.03);
+    }
+
+    .dep-logo {
+        width: 25px;
+        height: 25px;
+    }
+
+    .voting-section {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .department-heading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        padding: 10px;
+    }
+
+    .department-name {
+        display: flex;
+        flex-direction: column;
+        
+    }
+
+    .department-name p {
+        font-size: 10px;
+        font-weight: 600;
+        color: #1A55D7;
+        text-align: center;
+    }
+
+    .list-candidates {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .list-candidates-heading {
+        font-size: 9px;
+        font-weight: 600;
+        color: #000000;
+        text-align: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 5px;
+    }
+
+    .single-candidate {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    .image-candidate {
+        width: 25px;
+        height: 25px;
+        border: 2px solid #1A55D7;
+        overflow: hidden;
+    }
+
+    .image-candidate img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .candidate-number {
+        display: flex;
+        width: 25px;
+        height: 25px;
+        border: 0px;
+        background-color: #1A55D7;
+        color: #FFFFFF;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 15px;
+    }
+
+    .place-for-tick {
+        width: 25px;
+        height: 25px;
+        border: 2px solid #1A55D7;
+        overflow: hidden;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: bold;
+        color: transparent;
+        transition: color 0.2s, background-color 0.2s;
+        user-select: none;
+
+    }
+
+    .place-for-tick.active {
+        color: #1A55D7;
+    }   
+
+    .left-part-candidate {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .name-cand {
+        font-size: 9px;
+        font-weight: 400;
+        color: #1A55D7;
+    }
+
+    .surname-cand {
+        font-size: 9px;
+        font-weight: 800;
+        color: #1A55D7;
+        text-transform: uppercase;
+    }
+
+    .name-of-candidate {
+        display: flex;
+        align-items: center;
+    }
+
+    .list-left-part {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: start;
+
+    }
+}

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logowanie - Simple Vote</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+</head>
+<body>
+
+    <header>
+
+        <div class="header-logo">
+            
+            <a href="{{ url_for('start') }}">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo">
+            </a>
+
+        </div>
+
+        <div class="header-starter-buttons">
+            <button onclick="window.location.href='/register'">
+                Zarejestruj się
+            </button>
+            <button onclick="window.location.href='/login'">
+                Zaloguj się
+            </button>
+        </div>
+
+    </header>
+    
+    <main class="main-part-with-background">
+
+        <div class="main-page-content-container">
+
+            <div class="main-white-container">
+
+                <div class="headings-container">
+                    <h1>Witamy ponownie!</h1>
+                    <p>Zaloguj się za pomocą uczelnianego e-maila</p>
+                    <p>Nie masz konta? <a href="/register" style="text-decoration: none;"><span style="color: #1A55D7;">REJESTRACJA</span></a></p>
+                </div>
+
+                <form id="login_form" method="POST" action="https://localhost:5000/login">
+
+                    
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+                    <div class="form-container">
+
+                        <div class="single-input">
+
+                            <p>E-mail</p>
+                        
+                            <div class="input-box"> 
+
+                                <input type="email" name="email" placeholder="E-mail">
+
+                            </div>
+                        
+                        </div>
+
+                        <div class="single-input">
+
+                            <p>Hasło</p>
+                        
+                            <div class="input-box"> 
+
+                                <input type="password" name="password" placeholder="Hasło">
+
+                            </div>
+                        
+                        </div>
+
+                        <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+
+                        <p id="loading-info" style="text-align: center; display:none;">
+                            Czekaj, trwa logowanie...
+                        </p>
+
+                        <button class="finish-button" type="submit">
+                            Zaloguj się
+                        </button>
+
+                    </div>
+
+                </form>
+
+                <script src="https://www.google.com/recaptcha/api.js?render=6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></script>
+
+                <script>
+                    const loginForm = document.getElementById('login_form');
+                    const loginTop = document.getElementById('login-error-top');
+
+                    function showTopLoginError(message) {
+                        if (!loginTop) {
+                            alert(message);
+                            return;
+                        }
+                        loginTop.textContent = message;
+                    }
+
+                    if (loginForm) {
+
+                        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+                        const formData = new FormData(loginForm);
+                        if (csrfToken) {
+                            formData.set('csrf_token', csrfToken);
+                        }
+
+                        loginForm.addEventListener('submit', async function(e) {
+                            e.preventDefault();
+
+                            document.getElementById('loading-info').style.display = 'block';
+
+                            if (loginTop) loginTop.textContent = '';
+
+                            const recaptchaToken = document.getElementById('g-recaptcha-response').value;
+
+                            if (!recaptchaToken) {
+                                showTopLoginError("Potwierdź, że nie jesteś robotem!");
+                                return;
+                            }
+
+                            const formData = new FormData(loginForm);
+                            formData.set('g-recaptcha-response', recaptchaToken);
+
+                            try {
+                                const resp = await fetch('/login', {
+                                    method: 'POST',
+                                    body: formData
+                                });
+
+                                const data = await resp.json();
+
+                                if (!resp.ok) {
+                                    if (data.field && data.error) {
+                                        const el = document.getElementById(data.field);
+                                        const errEl = document.getElementById('err-' + data.field);
+                                        if (errEl) errEl.textContent = data.error;
+                                        if (el) el.classList.add('input-invalid');
+                                        el?.focus();
+                                    } else {
+                                        showTopLoginError(data.error || 'Błąd logowania');
+                                    }
+                                    return;
+                                }
+
+                                if (data.success && data.redirect) {
+                                    window.location.href = data.redirect;
+                                } else {
+                                    showTopLoginError('Zalogowano pomyślnie.');
+                                }
+
+                            } catch (err) {
+                                console.error(err);
+                                showTopLoginError('Błąd sieci. Spróbuj ponownie.');
+                            }
+                        });
+                    } else {
+                        console.warn('Brak formularza');
+                    }
+                </script>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+    
+</body>
+</html>
